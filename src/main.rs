@@ -19,7 +19,7 @@ const WIN_SIZE: (u32, u32) = (CELL_SIZE.0 * GRID_SIZE.0 + LINE_SIZE * (GRID_SIZE
                               CELL_SIZE.1 * GRID_SIZE.1 + LINE_SIZE * (GRID_SIZE.1 - 1));
 
 const MAIN_LOOP_TIMEOUT_NANOS: u32 = 1_000_000_000u32 / 60;
-const GAME_LOOP_TIMEOUT_NANOS: u32 = 250_000_000u32;
+const GAME_LOOP_TIMEOUT_NANOS: u32 = 50_000_000u32;
 
 fn draw_cell(canvas: &mut WindowCanvas, cell: &RefCell<Cell>) {
     let mut cell = cell.borrow_mut();
