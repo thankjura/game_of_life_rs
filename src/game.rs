@@ -36,7 +36,8 @@ impl GameContext {
             (x-1, y+0),
             (x+1, y+0),
             (x-1, y+1),
-            (x+1, y+1)
+            (x+0, y+1),
+            (x+1, y+1),
         ];
 
         for (x_coord, y_coord) in checked_coords {
