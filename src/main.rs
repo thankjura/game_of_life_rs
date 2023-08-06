@@ -51,7 +51,14 @@ fn draw(canvas: &mut WindowCanvas, context: &GameContext) {
     canvas.present();
 }
 
-fn get_cell_coord_by_cursor(x: u32, y: u32) -> Option<(u32, u32)> {
+fn get_cell_coord_by_cursor(x: i32, y: i32) -> Option<(u32, u32)> {
+    if x < 0 || y < 0 {
+        return None;
+    }
+
+    let x= x as u32;
+    let y = y as u32;
+
     let x_div_rem = x % (CELL_SIZE.0 + LINE_SIZE);
     if x_div_rem == 0 || x_div_rem == CELL_SIZE.0 {
         return None;
@@ -102,7 +109,7 @@ fn main() {
                         revive = true;
                     }
 
-                    if let Some((cell_x, cell_y)) = get_cell_coord_by_cursor(x as u32, y as u32) {
+                    if let Some((cell_x, cell_y)) = get_cell_coord_by_cursor(x, y) {
                         game_context.set_living(cell_x, cell_y, revive);
                         redraw = true;
                     }
@@ -111,7 +118,7 @@ fn main() {
                     if mousestate.left() || mousestate.right() {
                         let revive = mousestate.left();
 
-                        if let Some((cell_x, cell_y)) = get_cell_coord_by_cursor(x as u32, y as u32) {
+                        if let Some((cell_x, cell_y)) = get_cell_coord_by_cursor(x, y) {
                             game_context.set_living(cell_x, cell_y, revive);
                             redraw = true;
                         }

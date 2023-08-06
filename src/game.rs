@@ -58,6 +58,9 @@ impl GameContext {
     }
 
     pub fn set_living(&self, x: u32, y: u32, living: bool) {
+        if x >= self.size_x || y >= self.size_y {
+            return;
+        }
         let mut cell = self.cells[x as usize][y as usize].borrow_mut();
         if living {
             cell.revive();
