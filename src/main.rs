@@ -95,8 +95,10 @@ fn main() {
     let mut event_pump = sdl_context.event_pump().unwrap();
     let mut time = 0u32;
 
+    let mut redraw = false;
+    let mut freeze = false;
+
     'running: loop {
-        let mut redraw = false;
         for event in event_pump.poll_iter() {
             match event {
                 Event::Quit {..} |
@@ -113,6 +115,10 @@ fn main() {
                         game_context.set_living(cell_x, cell_y, revive);
                         redraw = true;
                     }
+                    freeze = true;
+                }
+                Event::MouseButtonUp {..} => {
+                    freeze = false;
                 }
                 Event::MouseMotion {mousestate, x, y, ..} => {
                     if mousestate.left() || mousestate.right() {
@@ -128,13 +134,16 @@ fn main() {
             }
         }
 
+
         if redraw {
             draw(&mut canvas, &game_context);
         }
 
         if time > GAME_LOOP_TIMEOUT_NANOS {
-            game_context.tick();
-            draw(&mut canvas, &game_context);
+            if !freeze {
+                game_context.tick();
+                draw(&mut canvas, &game_context);
+            }
             time -= GAME_LOOP_TIMEOUT_NANOS;
         } else {
             time += MAIN_LOOP_TIMEOUT_NANOS;
